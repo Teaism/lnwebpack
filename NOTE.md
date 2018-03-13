@@ -1,6 +1,9 @@
 # webpack learn note
 
 
+### script
+
+ 显示编译进程 --progress
 #### 加载css
 ```
     //loader
@@ -59,3 +62,5 @@
         }
 
 ```
+
+
