@@ -1,0 +1,105 @@
+/*
+* @Author: Teaism
+* @Date:   2017-08-29 15:17:01
+* @Last Modified by:   Teaism
+* @Last Modified time: 2017-10-10 11:45:30
+*/
+
+body {
+    width: 1340px;
+    font-size: 16px;
+}
+
+.form-search .form-group label {
+    min-width: 90px;
+}
+
+.form-add .form-group {
+    position: relative;
+    margin-bottom: 5px;
+}
+
+.form-add label.defi-error {
+    width: 130px;
+    top: 3px;
+    left: 286px;
+}
+.form-group .checkbox {max-width: 1000px;}
+
+.form-group .checkbox label {
+    width: auto;
+}
+
+
+.input-sm,
+.form-group .form-control {
+    font-size: 16px;
+    padding: 2px 10px;
+}
+.btn-main,
+.btn-main2,
+.btn-greyweak {
+    font-size: 16px;
+}
+.btn-greyweak {
+    display: inline-block;
+    background-color: #f9f9f9;
+    border: 1px solid #d5d5d5;
+    color: #666;
+    padding: 6px 17px
+}
+.form-add .fullline textarea {
+    width: 614px;
+    font-size: 16px;
+    padding: 4px 5px;
+}
+.feeitemedit .fees {
+    max-width: 100px;
+    border: 1px solid  #fff;
+}
+.feeitemedit .fees.edit {
+    border-color: #ccc;
+    border-radius: 3px;
+}
+.feeitemedit .fees::-webkit-input-placeholder {
+    color: #f00;
+}
+.layui-layer-title,，
+.layui-layer-tips .layui-layer-content,
+.layui-layer-dialog .layui-layer-content {
+    font-size: 16px;
+}
+.fz17 {font-size: 17px;}
+.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+    background-color: #ddd
+}
+
+.cus-cardbutton {
+    position: absolute;
+    left: 288px;
+    width: 130px;
+    top: 0;
+
+    .card-btn {
+        width: 62px;
+        padding: 2px 4px;
+    }
+}
+
+.poplayer {font-size: 16px;}
+
+// 货区选中
+.form-control.district-no {width: 50px;}
+.form-control.district-name {width: 137px;}
+
+// 错误提示放大
+.form-add label.error {
+    top: 0;
+    width: 142px;
+    max-width: 210px;
+    background: #fff;
+    color: rgb(228, 14, 241);
+    font-size: 20px;
+    text-decoration: underline;
+    font-weight: 900;
+}

@@ -2,7 +2,7 @@
 * @Author: Administrator
 * @Date:   2018-03-12 10:53:12
 * @Last Modified by:   Administrator
-* @Last Modified time: 2018-03-13 14:47:16
+* @Last Modified time: 2018-03-13 17:07:42
 */
 
 const path = require('path');
@@ -11,7 +11,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
 	entry: {
-		index: './src/index.js'
+		index: './src/index.js',
+		// vendors: './src/vendors.js'
 	},
 	plugins: [
 		// new CleanWebpackPlugin(['dist']),

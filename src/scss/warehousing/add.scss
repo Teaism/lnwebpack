@@ -1,0 +1,69 @@
+/* 
+* @Author: Teaism
+* @Date:   2017-03-29 15:32:36
+* @Last Modified by:   Teaism
+* @Last Modified time: 2017-11-24 09:31:33
+*/
+.main-container {
+    padding-bottom: 30px;
+}
+.form-add {
+    margin-top: 60px;
+    
+    & > div {
+        width: 100%;
+        margin-top: 30px;
+        padding: 10px;
+        box-sizing: border-box;
+        border: 1px dotted #ddd;
+
+        & h4 {
+            margin-bottom: 20px;
+        }
+    }
+    .form-control {
+        width: 192px;
+        border-radius: 3px;
+    }
+    .form_date .form-control {
+        width: 152px;
+    }
+    .form-group {
+        margin-right: 130px;
+    }
+    .fullline textarea {
+        width: 592px;
+        font-size: 12px;
+        resize: none;
+    }
+
+    label.error {
+        display: inline-block!important;
+        position: absolute;
+        z-index: 9;
+        width: 120px;
+        margin-top: 3px;
+        font-size: 12px;
+        font-weight: 400;
+        color: #d9534f;
+    }
+    .input-group label.error {
+        margin-left: 40px;
+    }
+    .delete-btn {
+        display: none;
+    }
+}
+
+.checkbox {
+     label {
+        width: auto;
+        margin-right: 10px;
+        font-weight: 400;
+        vertical-align: middle;
+    }
+    input[type=radio], input[type=checkbox] {
+        vertical-align: middle;
+        margin-top: 0;
+    }
+}
