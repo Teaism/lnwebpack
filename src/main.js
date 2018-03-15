@@ -2,7 +2,7 @@
  * @Author: Teaism
  * @Date:   2018-03-07 17:28:37
  * @Last Modified by:   Administrator
- * @Last Modified time: 2018-03-15 17:09:07
+ * @Last Modified time: 2018-03-15 17:13:07
  */
 
 /*import _ from 'lodash';
@@ -11,7 +11,7 @@ import './style.css';*/
 // import { cube } from './math.js';
 
 // import '../scss/widget/searchList.scss'
-// import '../scss/widget/reset.scss'
+import '../scss/widget/reset.scss'
 // import '../scss/widget/reset.css'
 
 /*function getComponent() {s
