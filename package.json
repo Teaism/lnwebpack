@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack --config webpack.config.js --mode development",
-    "dev": "webpack-dev-server --open --config webpack.dev.config.js --mode development",
+    "dev": "webpack-dev-server --open --config webpack.dev.config.js",
     "build": "webpack --config webpack.prod.config.js"
   },
   "keywords": [],
@@ -24,7 +24,7 @@
     "style-loader": "^0.20.2",
     "uglifyjs-webpack-plugin": "^1.2.3",
     "url-loader": "^1.0.1",
-    "webpack": "^3.10.0",
+    "webpack": "^4.1.1",
     "webpack-cli": "^2.0.10",
     "webpack-dev-server": "^3.1.0",
     "webpack-merge": "^4.1.2"

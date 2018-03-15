@@ -11,7 +11,7 @@ import './style.css';*/
 // import { cube } from './math.js';
 
 // import '../scss/widget/searchList.scss'
-import '../scss/widget/reset.scss'
+import './scss/widget/reset.scss'
 // import '../scss/widget/reset.css'
 
 /*function getComponent() {s
