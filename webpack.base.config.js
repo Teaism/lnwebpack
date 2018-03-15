@@ -2,7 +2,7 @@
 * @Author: Administrator
 * @Date:   2018-03-12 10:53:12
 * @Last Modified by:   Administrator
-* @Last Modified time: 2018-03-15 22:13:26
+* @Last Modified time: 2018-03-15 22:30:23
 */
 
 const path = require("path");
@@ -39,8 +39,11 @@ module.exports = {
             filename: "index.html",
             hash: true,
             inject: "#app"
-        }),
-    // new ExtractTextPlugin('style.css')
+        })/*,
+    new ExtractTextPlugin({
+        filename: './dist/style-[hash].css'
+        ,allChunks: true
+    })*/
     
     /*,
     new webpack.DefinePlugin({
