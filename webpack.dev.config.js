@@ -2,7 +2,7 @@
 * @Author: Administrator
 * @Date:   2018-03-12 10:53:29
 * @Last Modified by:   Administrator
-* @Last Modified time: 2018-03-15 17:16:23
+* @Last Modified time: 2018-03-15 21:59:42
 */
 
 const merge = require('webpack-merge');
@@ -14,7 +14,6 @@ module.exports = merge(base, {
 		contentBase: './dist',
 		host: '127.0.0.1',
 		port: '8012',
-		inline: true,
-		hot: true
+		inline: true
 	}
 });

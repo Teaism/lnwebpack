@@ -2,19 +2,32 @@
 * @Author: Administrator
 * @Date:   2018-03-12 10:53:20
 * @Last Modified by:   Administrator
-* @Last Modified time: 2018-03-15 18:50:30
+* @Last Modified time: 2018-03-15 22:13:53
 */
 
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const base = require('./webpack.base.config.js');
-
-
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = merge(base, {
 	devtool: 'source-map',
-	
+	module: {
+    rules: [
+      {
+        test: /\.(png|jp?g|gif|eot|ttf|woff|woff2|svg|svgz)(\?.+)?$/,
+        use: [{
+          loader: 'url-loader',
+          options: { limit: 8192, name: 'images/[name].[hash:7].ext'}
+        }]
+      }
+    ]
+  },
 	plugins: [
+        new CleanWebpackPlugin(['dist']),
+    	new UglifyJSPlugin({sourceMap: true})
+    	
 		// extractSass
 		// new ExtractTextPlugin('style.css')
 		// new webpack.DefinePlugin({'prpcess.env.NODE_ENV': JSON.stringify('production')}),
