@@ -2,7 +2,7 @@
 * @Author: Administrator
 * @Date:   2018-03-12 10:53:12
 * @Last Modified by:   Administrator
-* @Last Modified time: 2018-03-16 09:40:13
+* @Last Modified time: 2018-03-16 10:42:57
 */
 
 const path = require("path");
@@ -21,10 +21,9 @@ module.exports = {
         index: "./src/main"
         // ,vendors: './src/vendors'
     },
-
     module: {
         rules: [
-            /*{
+           /* {
                 test: /\.scss$/,
                 use: ExtractTextPlugin.extract({
                     fallback: 'style-loader',
@@ -32,6 +31,13 @@ module.exports = {
                 })
             },*/
             {
+                test: /\.css$/,
+                use: [
+                    'style-loader',
+                    'css-loader'
+                ]
+            }
+            /*{
               test: /\.scss$/,
               use: [
                   {test: /html-webpack-plugin/, use: "null-loader"},
@@ -42,7 +48,7 @@ module.exports = {
                       })
                   }
               ]
-          },
+          },*/
         ]
     },
     plugins: [
@@ -51,11 +57,11 @@ module.exports = {
             filename: "index.html",
             hash: true,
             inject: "#app"
-    }),
+    })/*,
     new ExtractTextPlugin({
         filename: './dist/style-[hash].css'
         ,allChunks: true
-    })
+    })*/
     
     /*,
     new webpack.DefinePlugin({

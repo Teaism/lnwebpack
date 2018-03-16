@@ -2,38 +2,28 @@
  * @Author: Teaism
  * @Date:   2018-03-07 17:28:37
  * @Last Modified by:   Administrator
- * @Last Modified time: 2018-03-16 09:33:33
+ * @Last Modified time: 2018-03-16 10:44:08
  */
 
-/*import _ from 'lodash';
-import printMe from './print.js';
-import './style.css';*/
-// import { cube } from './math.js';
+// import _ from 'lodash';
 
 // import '../scss/widget/searchList.scss'
 
 
-import './reset.scss'
-import '../scss/widget/reset.css'
+// import './reset.scss'
+
+// import './scss/widget/reset.scss'
+
+
+import 'scss/widget/reset.css';
+// import './scss/widget/reset.css';
+// import 'scss/widget/reset.scss';
+
+// import './scss/widget/reset.scss';
 
 
 
-/*function getComponent() {s
 
-	return import('lodash').then(_ => {
-		var element = document.createElement('div');
-
-		element.innerHTML = _.join(['Hello', 'webpack'], ' ');
-		return element;
-	}).catch(error => 'an error occurred whild loading the component')
-
-}
-
-getComponent().then(component => {
-	document.body.appendChild(component)
-})
-
-*/
 
 console.log('my w')
 
