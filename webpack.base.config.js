@@ -2,23 +2,23 @@
 * @Author: Administrator
 * @Date:   2018-03-12 10:53:12
 * @Last Modified by:   Administrator
-* @Last Modified time: 2018-03-16 10:42:57
+* @Last Modified time: 2018-03-16 17:37:16
 */
 
-const path = require("path");
-const webpack = require("webpack");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const path = require('path');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const extractSass = new ExtractTextPlugin({
-  filename: "[name].[contenthash].css",
-  disable: process.env.NODE_ENV === "development"
+  filename: '[name].[contenthash].css',
+  disable: process.env.NODE_ENV === 'development'
 });
 
 module.exports = {
-  mode: process.env.NODE_ENV === "production" ? "production" : "development",
+  mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
   entry: {
-    index: "./src/main"
+    index: './src/main'
     // ,vendors: './src/vendors'
   },
   module: {
@@ -26,40 +26,37 @@ module.exports = {
       {
         test: /\.scss$/,
         use: ExtractTextPlugin.extract({
-          fallback: "style-loader",
-          use: ["css-loader", "sass-loader"]
+          fallback: 'style-loader',
+          use: ['css-loader', 'sass-loader']
         })
       },
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader"]
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: [
+            { loader: 'css-loader', options: { importLoaders: 1 } },
+            'postcss-loader'
+          ]
+        })
+      },
+      {
+        test: /\.js$/,
+        exclude: /(node_modules|bower_components)/,
+        use: ['babel-loader']
       }
-      /*{
-              test: /\.scss$/,
-              use: [
-                  {test: /html-webpack-plugin/, use: "null-loader"},
-                  {
-                      use: ExtractTextPlugin.extract({
-                          fallbackLoader: 'style-loader',
-                          loader: ['css-loader', 'sass-loader']
-                      })
-                  }
-              ]
-          },*/
+     
     ]
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, "src/index.tmpl.html"),
-      filename: "index.html",
+      template: path.join(__dirname, 'src/index.tmpl.html'),
+      filename: 'index.html',
       hash: true,
-      inject: "#app"
+      inject: '#app'
     }),
-    /* new ExtractTextPlugin({
-        filename: './dist/style-[hash].css'
-        ,allChunks: true
-    })*/
-    extractSass,
+     
+    extractSass
     /*,
     
     new webpack.DefinePlugin({
@@ -70,8 +67,8 @@ module.exports = {
     })*/
   ],
   output: {
-    path: path.resolve(__dirname, "dist"),
-    filename: "[name][hash].bundle.js",
-    chunkFilename: "[name].bundle.js"
+    path: path.resolve(__dirname, 'dist'),
+    filename: '[name][hash].bundle.js',
+    chunkFilename: '[name].bundle.js'
   }
 };
