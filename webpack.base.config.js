@@ -2,7 +2,7 @@
 * @Author: Administrator
 * @Date:   2018-03-12 10:53:12
 * @Last Modified by:   Administrator
-* @Last Modified time: 2018-03-16 17:37:16
+* @Last Modified time: 2018-03-16 18:57:03
 */
 
 const path = require('path');
@@ -15,10 +15,25 @@ const extractSass = new ExtractTextPlugin({
   disable: process.env.NODE_ENV === 'development'
 });
 
+var entries = getEntry('./src/pages/**/*.js'); 
+function getEntry(globPath) {
+  var entries = {},basename, tmp, pathname;
+
+  glob.sync(globPath).forEach(function (entry) {
+    basename = path.basename(entry, path.extname(entry));
+    tmp = entry.split('/').splice(-3);
+    pathname = tmp.splice(0, 1) + '/' + basename; // 正确输出js和html的路径
+    entries[pathname] = entry;
+  });
+
+  return entries;
+}
+
+
 module.exports = {
   mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
   entry: {
-    index: './src/main'
+    index: entries
     // ,vendors: './src/vendors'
   },
   module: {
@@ -68,7 +83,11 @@ module.exports = {
   ],
   output: {
     path: path.resolve(__dirname, 'dist'),
+    ,publicPath: 'dist',
     filename: '[name][hash].bundle.js',
-    chunkFilename: '[name].bundle.js'
+    chunkFilename: '[name].bundle.js'，
+    chunkFilename: 'js/[id].chunk.js'
   }
 };
+
+
