@@ -14,8 +14,7 @@
 
 // import './scss/widget/reset.scss'
 
-
-import 'scss/widget/reset.css';
+import './scss/widget/reset.scss';
 // import './scss/widget/reset.css';
 // import 'scss/widget/reset.scss';
 
