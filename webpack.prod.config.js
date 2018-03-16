@@ -2,7 +2,7 @@
 * @Author: Administrator
 * @Date:   2018-03-12 10:53:20
 * @Last Modified by:   Administrator
-* @Last Modified time: 2018-03-15 22:13:53
+* @Last Modified time: 2018-03-16 09:31:37
 */
 
 const webpack = require('webpack');
@@ -26,7 +26,12 @@ module.exports = merge(base, {
   },
 	plugins: [
         new CleanWebpackPlugin(['dist']),
-    	new UglifyJSPlugin({sourceMap: true})
+    	new UglifyJSPlugin({sourceMap: true, compress: {warnings: false}})
+        new webpack.DefinePlugin({
+            'process.env': {
+                NODE_ENV: '"production"'
+            }
+        }),
     	
 		// extractSass
 		// new ExtractTextPlugin('style.css')

@@ -2,7 +2,7 @@
  * @Author: Teaism
  * @Date:   2018-03-07 17:28:37
  * @Last Modified by:   Administrator
- * @Last Modified time: 2018-03-15 22:14:38
+ * @Last Modified time: 2018-03-16 09:33:33
  */
 
 /*import _ from 'lodash';
@@ -11,8 +11,12 @@ import './style.css';*/
 // import { cube } from './math.js';
 
 // import '../scss/widget/searchList.scss'
-// import './reset.scss'
-// import '../scss/widget/reset.css'
+
+
+import './reset.scss'
+import '../scss/widget/reset.css'
+
+
 
 /*function getComponent() {s
 
@@ -31,5 +35,5 @@ getComponent().then(component => {
 
 */
 
-console.log('myu')
+console.log('my w')
 
