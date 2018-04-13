@@ -2,40 +2,39 @@
 * @Author: Administrator
 * @Date:   2018-03-12 10:53:12
 * @Last Modified by:   Administrator
-* @Last Modified time: 2018-03-16 18:57:03
+* @Last Modified time: 2018-04-13 19:26:07
 */
 
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const glob = require('glob');
+
 
 const extractSass = new ExtractTextPlugin({
   filename: '[name].[contenthash].css',
   disable: process.env.NODE_ENV === 'development'
 });
 
-var entries = getEntry('./src/pages/**/*.js'); 
+var pages = getEntry(path.resolve(__dirname, './src/pages/**/*.js')); 
+
+// 获取指定路径下的多入口文件
 function getEntry(globPath) {
-  var entries = {},basename, tmp, pathname;
-
-  glob.sync(globPath).forEach(function (entry) {
-    basename = path.basename(entry, path.extname(entry));
-    tmp = entry.split('/').splice(-3);
-    pathname = tmp.splice(0, 1) + '/' + basename; // 正确输出js和html的路径
-    entries[pathname] = entry;
+  var entries = {};
+  glob.sync(globPath).forEach(function (name) {
+    var n = name.slice(name.lastIndexOf('src/') + 4, name.length - 3);
+    n = n.slice(0, n.lastIndexOf('/'));
+    //接着我对路径字符串进行了一些裁剪成想要的路径
+    entries[n] = name;
   });
-
-  return entries;
+     return entries;
 }
 
 
-module.exports = {
+const webpackConfig = {
   mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
-  entry: {
-    index: entries
-    // ,vendors: './src/vendors'
-  },
+  entry: pages,
   module: {
     rules: [
       {
@@ -64,13 +63,13 @@ module.exports = {
     ]
   },
   plugins: [
-    new HtmlWebpackPlugin({
+    /*new HtmlWebpackPlugin({
       template: path.join(__dirname, 'src/index.tmpl.html'),
       filename: 'index.html',
       hash: true,
       inject: '#app'
-    }),
-     
+    }),*/
+
     extractSass
     /*,
     
@@ -82,12 +81,68 @@ module.exports = {
     })*/
   ],
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    ,publicPath: 'dist',
-    filename: '[name][hash].bundle.js',
-    chunkFilename: '[name].bundle.js'，
-    chunkFilename: 'js/[id].chunk.js'
-  }
+    path: path.resolve(__dirname, 'build')
+    ,publicPath: 'build',
+    filename: '[name]/[hash].bundle.js',
+    chunkFilename: '[name]/[name].bundle.js'
+  },
+  optimization: {
+        splitChunks: {
+            cacheGroups: {
+                commons: {
+                    chunks: 'initial',
+                    minChunks: 2,
+                    maxInitialRequests: 5,
+                    minSize: 2,
+                    name: 'common'
+                }
+            }
+        }
+    },
+
 };
 
+
+
+console.log(webpackConfig.entry)
+
+Object.keys(pages).forEach(function(pathname) {
+  // 每个页面生成一个entry，如果需要HotUpdate，在这里修改entry
+  webpackConfig.entry[pathname] = pages[pathname];
+
+let fileOut = path.resolve(__dirname, './build/' + [pathname] + '/' + pathname.slice(pathname.lastIndexOf('/'))  + '.html');
+
+let tmplOrigin = path.resolve(__dirname, './src/' + [pathname] + '/' + pathname.slice(pathname.lastIndexOf('/'))  + '.html');
+
+  // 每个页面生成一个html
+  let plugin = new HtmlWebpackPlugin({
+    // 生成出来的html文件名
+    filename: fileOut,
+    // 模板路径
+    template: tmplOrigin,   
+
+    // 自动将引用插入html
+    inject: true,
+    // 每个html引用的js模块，也可以在这里加上vendor等公用模块
+     minify: {
+      //removeComments: true,
+      //collapseWhitespace: true,
+      //removeAttributeQuotes: true
+    },
+    // necessary to consistently work with multiple chunks via CommonsChunkPlugin
+    // chunksSortMode: 'dependency',
+    chunks: [pathname]
+  });
+
+  if (pathname in webpackConfig.entry) {
+    plugin.chunks = ['manifest', 'vendor', pathname];
+    plugin.hash = true;
+  }
+
+  webpackConfig.plugins.push(plugin);
+})
+
+
+
+module.exports = webpackConfig;
 

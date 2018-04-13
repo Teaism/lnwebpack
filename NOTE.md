@@ -64,3 +64,14 @@
 ```
 
 
+提取第三方库
+方便长期缓存第三方的库,新建一个入口，把第三方库作为一个chunk，生成vendor.js
+module.exports = {
+    entry: {
+        main: './src/index.js',
+        vendor: ['react', 'react-dom'],
+    },
+}
+
+DLL动态链接
+第三库不是经常更新，打包的时候希望分开打包，来提升打包速度。打包dll需要新建一个webpack配置文件，在打包dll的时候，webpack做一个索引，写在manifest文件中。然后打包项目文件时只需要读取manifest文件。

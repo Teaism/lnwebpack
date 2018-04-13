@@ -2,14 +2,16 @@
 * @Author: Administrator
 * @Date:   2018-03-12 10:53:20
 * @Last Modified by:   Administrator
-* @Last Modified time: 2018-03-16 16:26:58
+* @Last Modified time: 2018-04-13 19:23:44
 */
 
-const webpack = require('webpack');
 const merge = require('webpack-merge');
 const base = require('./webpack.base.config.js');
+const path = require('path');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const glob = require('glob');
 
 module.exports = merge(base, {
     devtool: 'source-map',
@@ -25,7 +27,7 @@ module.exports = merge(base, {
     ]
   },
     plugins: [
-      new CleanWebpackPlugin(['dist']),
+      new CleanWebpackPlugin(['build']),
         new UglifyJSPlugin({sourceMap: true})
         /*new webpack.DefinePlugin({
             'process.env': {
@@ -44,3 +46,6 @@ module.exports = merge(base, {
         })*/
     ]
 });
+
+
+
