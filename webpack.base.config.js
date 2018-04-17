@@ -2,7 +2,7 @@
 * @Author: fanger
 * @Date:   2018-03-12 10:53:12
 * @Last Modified by:   fanger
-* @Last Modified time: 2018-04-17 16:47:40
+* @Last Modified time: 2018-04-17 17:37:57
 */
 
 const path = require('path');
@@ -15,7 +15,7 @@ const glob = require('glob');
 
 
 /*const extractSass = new ExtractTextPlugin({
-  filename: '[name].[contenthash].css',
+  filename: '[name]/[contenthash].css',
   disable: process.env.NODE_ENV === 'development'
 });
 */
@@ -27,7 +27,7 @@ var pages = getEntry(path.resolve(__dirname, './src/pages/**/*.js'));
 function getEntry(globPath) {
   let entries = {};
   glob.sync(globPath).forEach(function (name) {
-    //裁剪路径字符串为想要的路径
+    //裁剪路径字符串为想要的路径(对应多入口名字)
     let n = name.slice(name.lastIndexOf('src/') + 4, name.length - 3);
     n = n.slice(0, n.lastIndexOf('/'));
     entries[n] = name;
@@ -41,13 +41,6 @@ const webpackConfig = {
   entry: pages,
   module: {
     rules: [
-      /*{
-        test: /\.scss$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: ['css-loader', 'sass-loader']
-        })
-      },*/
       {
         test: /\.scss$/,
         use: ExtractTextPlugin.extract({
@@ -92,27 +85,15 @@ const webpackConfig = {
   },
   plugins: [
     new ExtractTextPlugin({
-      filename: '[name].[contenthash].css',
+      filename: '[name]/[contenthash].css',
       disable: process.env.NODE_ENV === 'development'
     }),
-    new CopyWebpackPlugin([
-      { 
-        // from: path.resolve(__dirname, 'src/pages/main/images'), 
-        // to: path.resolve(__dirname, 'dist/pages/main/images'),
-        // from: path.resolve(__dirname, 'src/pages/**/images/*'), 
-
-        // from: path.resolve(__dirname, 'src/pages/'), 
+    new CopyWebpackPlugin([{ 
         from: 'pages/**/*', 
-        // to: 'dist/pages',
-        // to: path.resolve(__dirname, 'dist/pages/'),
-        // to: 'pages/main/images',
-        // test: /\.(png|jpg|jpeg)$/,
-        // test: /([^/]+)\/(.+)\.png$/,
-        force: true,
         toType: 'dir',
+        // 通过context: 'src/'复制时直接从src/下复制到build下
         context: 'src/'
-      }      
-    ], {
+      }], {
       ignore: ['*.html', '*.js', '*.scss']
     })
     /*,
