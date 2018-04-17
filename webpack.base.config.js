@@ -2,7 +2,7 @@
 * @Author: fanger
 * @Date:   2018-03-12 10:53:12
 * @Last Modified by:   fanger
-* @Last Modified time: 2018-04-16 18:31:02
+* @Last Modified time: 2018-04-17 16:47:40
 */
 
 const path = require('path');
@@ -96,9 +96,25 @@ const webpackConfig = {
       disable: process.env.NODE_ENV === 'development'
     }),
     new CopyWebpackPlugin([
-      // { from: path.resolve(__dirname, 'src/**/images'), to: path.resolve(__dirname,'dist/**/images') },      
-      { from: 'src/pages/**/images', to: 'dist/pages/**/images/' }      
-    ])
+      { 
+        // from: path.resolve(__dirname, 'src/pages/main/images'), 
+        // to: path.resolve(__dirname, 'dist/pages/main/images'),
+        // from: path.resolve(__dirname, 'src/pages/**/images/*'), 
+
+        // from: path.resolve(__dirname, 'src/pages/'), 
+        from: 'pages/**/*', 
+        // to: 'dist/pages',
+        // to: path.resolve(__dirname, 'dist/pages/'),
+        // to: 'pages/main/images',
+        // test: /\.(png|jpg|jpeg)$/,
+        // test: /([^/]+)\/(.+)\.png$/,
+        force: true,
+        toType: 'dir',
+        context: 'src/'
+      }      
+    ], {
+      ignore: ['*.html', '*.js', '*.scss']
+    })
     /*,
     new webpack.DefinePlugin({
       PRODUCTION: JSON.stringify(true),
@@ -108,8 +124,8 @@ const webpackConfig = {
     })*/
   ],
   output: {
-    path: path.resolve(__dirname, 'dist/'),
-    publicPath: path.resolve(__dirname, 'dist/'),
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: path.resolve(__dirname, 'dist'),
     filename: '[name]/[hash].js',
     chunkFilename: '[name]/[name].[hash:5].bundle.js'
   },
