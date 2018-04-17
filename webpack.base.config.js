@@ -2,7 +2,7 @@
 * @Author: fanger
 * @Date:   2018-03-12 10:53:12
 * @Last Modified by:   fanger
-* @Last Modified time: 2018-04-17 17:37:57
+* @Last Modified time: 2018-04-17 18:42:07
 */
 
 const path = require('path');
@@ -12,13 +12,6 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const glob = require('glob');
 
-
-
-/*const extractSass = new ExtractTextPlugin({
-  filename: '[name]/[contenthash].css',
-  disable: process.env.NODE_ENV === 'development'
-});
-*/
 
 // 获取多页面
 var pages = getEntry(path.resolve(__dirname, './src/pages/**/*.js')); 
@@ -76,33 +69,31 @@ const webpackConfig = {
         use: [{
           loader: 'url-loader',
           options: { 
+            context: 'src/',
             limit: 8192,
-            name: '[name].[hash:7].[ext]'
+            // name: '[path]/[name].[hash:8].[ext]'
+            name: '[path]/[name].[ext]'
           }
         }]
       }
     ]
   },
   plugins: [
+    // 提取css
     new ExtractTextPlugin({
+      //输出的路径及文件名
       filename: '[name]/[contenthash].css',
       disable: process.env.NODE_ENV === 'development'
     }),
+    // 复制src/pages/静态资源到build(dist)下
     new CopyWebpackPlugin([{ 
-        from: 'pages/**/*', 
-        toType: 'dir',
         // 通过context: 'src/'复制时直接从src/下复制到build下
-        context: 'src/'
+        context: 'src/',
+        from: 'pages/**/*', 
+        toType: 'dir'
       }], {
       ignore: ['*.html', '*.js', '*.scss']
     })
-    /*,
-    new webpack.DefinePlugin({
-      PRODUCTION: JSON.stringify(true),
-      DEVELOPMENT: JSON.stringify(true),
-      VERSION: JSON.stringify('5fa3b9'),
-      BROWSER_SUPPORTS_HTML5: true,
-    })*/
   ],
   output: {
     path: path.resolve(__dirname, 'dist'),
