@@ -2,7 +2,7 @@
 * @Author: fanger
 * @Date:   2018-03-12 10:53:12
 * @Last Modified by:   fanger
-* @Last Modified time: 2018-04-17 18:42:07
+* @Last Modified time: 2018-04-18 16:03:21
 */
 
 const path = require('path');
@@ -13,17 +13,18 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const glob = require('glob');
 
 
-// 获取多页面
-var pages = getEntry(path.resolve(__dirname, './src/pages/**/*.js')); 
+// 获取多页面入口js文件
+// __dirname表示项目目录H:\WWW\aaa\lnwebpack
+var pagesEntry = getEntry(path.join(__dirname, 'src/pages/**/*.js')); 
 
 // 获取指定路径下的多入口文件
 function getEntry(globPath) {
   let entries = {};
-  glob.sync(globPath).forEach(function (name) {
-    //裁剪路径字符串为想要的路径(对应多入口名字)
-    let n = name.slice(name.lastIndexOf('src/') + 4, name.length - 3);
-    n = n.slice(0, n.lastIndexOf('/'));
-    entries[n] = name;
+  glob.sync(globPath).forEach(function (path) {
+    //裁剪路径字符串为想要的入口名(为多入口生成对应目录层级)
+    let name = path.slice(path.lastIndexOf('src/') + 4, path.length - 3);
+    name = name.slice(0, name.lastIndexOf('/'));
+    entries[name] = path;
   });
      return entries;
 }
@@ -31,7 +32,7 @@ function getEntry(globPath) {
 // 基础配置
 const webpackConfig = {
   mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
-  entry: pages,
+  entry: pagesEntry,
   module: {
     rules: [
       {
@@ -83,7 +84,8 @@ const webpackConfig = {
     new ExtractTextPlugin({
       //输出的路径及文件名
       filename: '[name]/[contenthash].css',
-      disable: process.env.NODE_ENV === 'development'
+      allChunks: true,
+      // disable: process.env.NODE_ENV === 'development'
     }),
     // 复制src/pages/静态资源到build(dist)下
     new CopyWebpackPlugin([{ 
@@ -96,28 +98,17 @@ const webpackConfig = {
     })
   ],
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    publicPath: path.resolve(__dirname, 'dist'),
+    path: path.join(__dirname, 'dist'),
+    // 发布地址，打包文件中所有相对路径引用的资源都会被配置的路径所替换。
+    // publicPath: path.join(__dirname, 'dist'),
     filename: '[name]/[hash].js',
     chunkFilename: '[name]/[name].[hash:5].bundle.js'
-  },
-  optimization: {
-    splitChunks: {
-      cacheGroups: {
-        commons: {
-          chunks: 'initial',
-          minChunks: 2,
-          maxInitialRequests: 5,
-          minSize: 2,
-          name: 'common'
-        }
-      }
-    }
-    },
+  }
 };
 
+
 // 遍历页面目录生成多入口
-Object.keys(pages).forEach(function(pathname) {
+Object.keys(pagesEntry).forEach(function(pathname) {
   // 每个页面生成一个entry，如果需要HotUpdate，在这里修改entry
   // webpackConfig.entry[pathname] = pages[pathname];
   
@@ -125,8 +116,8 @@ Object.keys(pages).forEach(function(pathname) {
   // console.log(webpackConfig.entry[pathname])
   // console.log(webpackConfig.output.filename);
 
-  let fileOut = path.resolve(__dirname, './dist/' + [pathname] + '/' + pathname.slice(pathname.lastIndexOf('/'))  + '.html');
-  let tmplOrigin = path.resolve(__dirname, './src/' + [pathname] + '/' + pathname.slice(pathname.lastIndexOf('/'))  + '.html');
+  let fileOut = path.join(__dirname, 'dist/' + [pathname] + '/' + pathname.slice(pathname.lastIndexOf('/'))  + '.html');
+  let tmplOrigin = path.join(__dirname, 'src/' + [pathname] + '/' + pathname.slice(pathname.lastIndexOf('/'))  + '.html');
 
   // 每个页面生成一个html
   let plugin = new HtmlWebpackPlugin({
@@ -141,10 +132,9 @@ Object.keys(pages).forEach(function(pathname) {
       //removeComments: true,
       //collapseWhitespace: true,
       //removeAttributeQuotes: true
-    },
+    }
     // necessary to consistently work with multiple chunks via CommonsChunkPlugin
     // chunksSortMode: 'dependency',
-    chunks: [pathname]
   });
 
   if (pathname in webpackConfig.entry) {
@@ -153,7 +143,6 @@ Object.keys(pages).forEach(function(pathname) {
   }
   webpackConfig.plugins.unshift(plugin);
 })
-
 
 module.exports = webpackConfig;
 
