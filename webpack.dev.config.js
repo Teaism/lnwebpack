@@ -2,7 +2,7 @@
 * @Author: fanger
 * @Date:   2018-03-12 10:53:29
 * @Last Modified by:   fanger
-* @Last Modified time: 2018-04-19 14:52:49
+* @Last Modified time: 2018-04-19 16:16:10
 */
 
 const merge = require('webpack-merge');
@@ -19,8 +19,8 @@ module.exports = merge(base, {
     publicPath: '/dist/',
 		host: '127.0.0.1',
 		port: '8012',
-		//不跳转
-		// historyApiFallback: true,
+    //跳转
+    // historyApiFallback: true, 
 		// 实时刷新
 		inline: true
 	}

@@ -2,7 +2,7 @@
 * @Author: fanger
 * @Date:   2018-03-12 10:53:12
 * @Last Modified by:   fanger
-* @Last Modified time: 2018-04-19 14:54:33
+* @Last Modified time: 2018-04-19 16:49:09
 */
 
 const path = require('path');
@@ -13,11 +13,9 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const glob = require('glob');
 
 
-// 获取多页面入口js文件
+// 获取指定路径下的多入口文件返回{name: path}
 // __dirname”是node.js中的一个全局变量，它指向当前执行脚本所在的目录H:\WWW\aaa\lnwebpack。
 var pagesEntry = getEntry(path.join(__dirname, 'src/pages/**/*.js')); 
-
-// 获取指定路径下的多入口文件
 function getEntry(globPath) {
   let entries = {};
   glob.sync(globPath).forEach(function (path) {
@@ -26,10 +24,12 @@ function getEntry(globPath) {
     name = name.slice(0, name.lastIndexOf('/'));
     entries[name] = path;
   });
-     return entries;
+    return entries;
 }
 
 // 基础配置
+const modeEnv = process.env.NODE_ENV === 'production' ? true : false;
+
 const webpackConfig = {
   mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
   entry: pagesEntry,
@@ -42,6 +42,7 @@ const webpackConfig = {
           use: [{
             loader: 'css-loader', options: {
               sourceMap: true,
+              minimize: modeEnv,
               importLoaders: 2 
             }
           }, {
@@ -121,39 +122,28 @@ const webpackConfig = {
 
 // 遍历页面目录生成多入口
 Object.keys(pagesEntry).forEach(function(pathname) {
-  // 每个页面生成一个entry，如果需要HotUpdate，在这里修改entry
-  // webpackConfig.entry[pathname] = pages[pathname];
-  
-  // console.log(pathname)
-  // console.log(webpackConfig.entry[pathname])
-  // console.log(webpackConfig.output.filename);
-
   let fileOut = path.join(__dirname, 'dist/' + [pathname] + '/' + pathname.slice(pathname.lastIndexOf('/'))  + '.html');
   let tmplOrigin = path.join(__dirname, 'src/' + [pathname] + '/' + pathname.slice(pathname.lastIndexOf('/'))  + '.html');
-
   // 每个页面生成一个html
-  let plugin = new HtmlWebpackPlugin({
-    // 生成出来的html文件名
+  let htmlPluginConf = {
+    // 生成出来的html存放路径
     filename: fileOut,
     // 模板路径
     template: tmplOrigin,   
-    // 自动将引用插入html
-    inject: true,
-    // 每个html引用的js模块，也可以在这里加上vendor等公用模块
-     minify: {
-      //removeComments: true,
-      //collapseWhitespace: true,
-      //removeAttributeQuotes: true
-    }
+    // 注入所有js静态资源到html
+    inject: false
     // necessary to consistently work with multiple chunks via CommonsChunkPlugin
     // chunksSortMode: 'dependency',
-  });
+  };
 
-  if (pathname in webpackConfig.entry) {
-    plugin.chunks = ['manifest', 'vendor', pathname];
-    plugin.hash = true;
+  // console.log(pathname)
+
+  // 注入当前每个html引用的自己路径下的js模块，也可以在这里加上vendor等公用模块
+  if (pathname in pagesEntry) {
+    htmlPluginConf.inject = true;
+    htmlPluginConf.chunks = ['manifest', 'vendor', pathname];
   }
-  webpackConfig.plugins.unshift(plugin);
+  webpackConfig.plugins.unshift(new HtmlWebpackPlugin(htmlPluginConf));
 })
 
 module.exports = webpackConfig;

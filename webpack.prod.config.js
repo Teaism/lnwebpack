@@ -2,7 +2,7 @@
 * @Author: fanger
 * @Date:   2018-03-12 10:53:20
 * @Last Modified by:   fanger
-* @Last Modified time: 2018-04-19 11:49:31
+* @Last Modified time: 2018-04-19 16:31:06
 */
 
 const webpack = require('webpack');
@@ -14,12 +14,7 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const glob = require('glob');
 
 module.exports = merge(base, {
-  devtool: 'source-map',
- /* module: {
-  rules: [
-      
-  ]
-},*/
+  devtool: 'null',
   plugins: [
     new CleanWebpackPlugin(['dist']),
     new UglifyJSPlugin({sourceMap: true}),
