@@ -2,7 +2,7 @@
 * @Author: fanger
 * @Date:   2018-03-12 10:53:29
 * @Last Modified by:   fanger
-* @Last Modified time: 2018-04-18 15:43:00
+* @Last Modified time: 2018-04-19 14:52:49
 */
 
 const merge = require('webpack-merge');
@@ -13,10 +13,15 @@ const webpackDevServer = require('webpack-dev-server');
 module.exports = merge(base, {
 	devtool: 'inline-source-map',
 	devServer: {
+		// 本地服务器所加载的页面所在的目录
 		contentBase: path.resolve(__dirname, 'dist'),
-		publicPath: '/dist/',
+    //通过publicPath路径访问
+    publicPath: '/dist/',
 		host: '127.0.0.1',
 		port: '8012',
+		//不跳转
+		// historyApiFallback: true,
+		// 实时刷新
 		inline: true
 	}
 });

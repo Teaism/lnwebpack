@@ -2,7 +2,7 @@
 * @Author: fanger
 * @Date:   2018-03-12 10:53:12
 * @Last Modified by:   fanger
-* @Last Modified time: 2018-04-18 16:03:21
+* @Last Modified time: 2018-04-19 14:54:33
 */
 
 const path = require('path');
@@ -14,7 +14,7 @@ const glob = require('glob');
 
 
 // 获取多页面入口js文件
-// __dirname表示项目目录H:\WWW\aaa\lnwebpack
+// __dirname”是node.js中的一个全局变量，它指向当前执行脚本所在的目录H:\WWW\aaa\lnwebpack。
 var pagesEntry = getEntry(path.join(__dirname, 'src/pages/**/*.js')); 
 
 // 获取指定路径下的多入口文件
@@ -40,22 +40,33 @@ const webpackConfig = {
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: [{
-              loader: "css-loader", options: {
-                  sourceMap: true
-              }
+            loader: 'css-loader', options: {
+              sourceMap: true,
+              importLoaders: 2 
+            }
           }, {
-              loader: "sass-loader", options: {
-                  sourceMap: true
-              }
-          }]
+            loader: 'sass-loader', options: {
+              sourceMap: true
+            }
+          }, 
+            'postcss-loader'
+          ]
         })
       },
       {
         test: /\.css$/,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
-          use: [
-            { loader: 'css-loader', options: { importLoaders: 1 } },
+          use: [{ 
+            loader: 'css-loader', 
+            options: { 
+              importLoaders: 1 
+              // 指定启用css modules
+              // modules: true,  
+              // 指定css的类名格式
+              // localIdentName: '[name]__[local]--[hash:base64:5]' 
+            } 
+          }, 
             'postcss-loader'
           ]
         })
@@ -72,6 +83,7 @@ const webpackConfig = {
           options: { 
             context: 'src/',
             limit: 8192,
+            // 因为已复制图片到dist,避免重复这里处理后不改变图片文件名
             // name: '[path]/[name].[hash:8].[ext]'
             name: '[path]/[name].[ext]'
           }
@@ -91,10 +103,10 @@ const webpackConfig = {
     new CopyWebpackPlugin([{ 
         // 通过context: 'src/'复制时直接从src/下复制到build下
         context: 'src/',
-        from: 'pages/**/*', 
+        from: '**/*', 
         toType: 'dir'
       }], {
-      ignore: ['*.html', '*.js', '*.scss']
+      ignore: ['*.html', '*.js', '*.scss', '*.css']
     })
   ],
   output: {

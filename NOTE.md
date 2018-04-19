@@ -84,3 +84,7 @@ DLL动态链接
 
 http://127.0.0.1:8012/webpack-dev-server 可以查看dev编译出的目录
 确保 publicPath 总是以斜杠(/)开头和结尾。
+
+代码检查loader
+模拟数据：前端mock数据
+打包结果分析 BundleAnalyzerPlugin
