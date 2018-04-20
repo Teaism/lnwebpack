@@ -1,14 +1,35 @@
-# lnwebpack
-learn webpack
+
+# webpack multi-pages config
 
 
-SplitChunksPlugin
-
-babel plugin
+## Download or Clone
 
 ```
-npm i --save-dev babel-loader babel-core babel-preset-env
-babel-loader 用于让 webpack 知道如何运行 babel
-babel-core 可以看做编译器，这个库知道如何解析代码
-babel-preset-env 这个库可以根据环境的不同转换代码
+//clone
+$ https://github.com/Teaism/lnwebpack.git
 ```
+
+## Install
+
+```
+$ npm install
+```
+
+## Useage
+
+```
+//开发环境 http://127.0.0.1:8012/pages/main/main.html
+$ npm run dev  
+//生产环境 可直接打开文件也可以配置访问 http://localhost:8080/aaa/lnwebpack/dist/pages/main/main.html
+$ npm run build 
+```
+
+## Config
+
+webpack.base.config  //基础配置
+webpack.dev.config   //开发环境配置
+webpack.prod.config  //生产环境配置
+
+## dir 
+
+src

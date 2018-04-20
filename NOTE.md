@@ -88,3 +88,12 @@ http://127.0.0.1:8012/webpack-dev-server 可以查看dev编译出的目录
 代码检查loader
 模拟数据：前端mock数据
 打包结果分析 BundleAnalyzerPlugin
+
+babel plugin
+
+```
+npm i --save-dev babel-loader babel-core babel-preset-env
+babel-loader 用于让 webpack 知道如何运行 babel
+babel-core 可以看做编译器，这个库知道如何解析代码
+babel-preset-env 这个库可以根据环境的不同转换代码
+```
