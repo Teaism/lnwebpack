@@ -1,30 +1,29 @@
 /*!
 * @Author: fanger
 * @Date:   2018-03-12 10:53:12
-* @Last Modified by:   fanger
-* @Last Modified time: 2018-04-19 16:49:09
+ * @Last Modified by: Teaism
+ * @Last Modified time: 2018-04-27 18:01:29
 */
 
 const path = require('path');
-const webpack = require('webpack');
+// const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const glob = require('glob');
 
-
 // 获取指定路径下的多入口文件返回{name: path}
 // __dirname”是node.js中的一个全局变量，它指向当前执行脚本所在的目录H:\WWW\aaa\lnwebpack。
 var pagesEntry = getEntry(path.join(__dirname, 'src/pages/**/*.js')); 
-function getEntry(globPath) {
+function getEntry (globPath) {
   let entries = {};
   glob.sync(globPath).forEach(function (path) {
-    //裁剪路径字符串为想要的入口名(为多入口生成对应目录层级)
+    // 裁剪路径字符串为想要的入口名(为多入口生成对应目录层级)
     let name = path.slice(path.lastIndexOf('src/') + 4, path.length - 3);
     name = name.slice(0, name.lastIndexOf('/'));
     entries[name] = path;
   });
-    return entries;
+  return entries;
 }
 
 // 基础配置
@@ -97,7 +96,7 @@ const webpackConfig = {
     new ExtractTextPlugin({
       //输出的路径及文件名
       filename: '[name]/[contenthash].css',
-      allChunks: true,
+      allChunks: true
       // disable: process.env.NODE_ENV === 'development'
     }),
     // 复制src/pages/静态资源到build(dist)下
@@ -144,7 +143,7 @@ Object.keys(pagesEntry).forEach(function(pathname) {
     htmlPluginConf.chunks = ['manifest', 'vendor', pathname];
   }
   webpackConfig.plugins.unshift(new HtmlWebpackPlugin(htmlPluginConf));
-})
+});
 
 module.exports = webpackConfig;
 

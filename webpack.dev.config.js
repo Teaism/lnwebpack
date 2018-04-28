@@ -1,8 +1,8 @@
 /*!
 * @Author: fanger
 * @Date:   2018-03-12 10:53:29
-* @Last Modified by:   fanger
-* @Last Modified time: 2018-04-19 18:32:11
+ * @Last Modified by: Teaism
+ * @Last Modified time: 2018-04-27 18:02:36
 */
 
 const merge = require('webpack-merge');
@@ -16,7 +16,8 @@ module.exports = merge(base, {
 		// 本地服务器所加载的页面所在的目录
 		contentBase: path.resolve(__dirname, 'dist'),
     //通过publicPath路径访问
-    // publicPath: '/dist/',
+    publicPath: '/dist/',  //访问时带dist
+    // publicPath: '/',  //访问时不带dist
 		host: '127.0.0.1',
 		port: '8012',
     //跳转
