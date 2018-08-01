@@ -2,7 +2,7 @@
 * @Author: fanger
 * @Date:   2018-03-12 10:53:12
  * @Last Modified by: Teaism
- * @Last Modified time: 2018-04-27 18:01:29
+ * @Last Modified time: 2018-08-01 09:47:46
 */
 
 const path = require('path');
@@ -97,7 +97,7 @@ const webpackConfig = {
       //输出的路径及文件名
       filename: '[name]/[contenthash].css',
       allChunks: true
-      // disable: process.env.NODE_ENV === 'development'
+      // disable: process.env.NODE_ENV === '"development"'
     }),
     // 复制src/pages/静态资源到build(dist)下
     new CopyWebpackPlugin([{ 
@@ -117,7 +117,6 @@ const webpackConfig = {
     chunkFilename: '[name]/[name].[hash:5].bundle.js'
   }
 };
-
 
 // 遍历页面目录生成多入口
 Object.keys(pagesEntry).forEach(function(pathname) {
